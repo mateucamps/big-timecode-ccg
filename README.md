@@ -16,7 +16,7 @@ It supports two channels, named "Player 1" and "Player 2" by default.
 ~$ pip3 install python-osc
 ```
 4. Modify ```settings.py``` to fit your needs.
-5. Modify ```casparcg.cong``` and add the following lines:
+5. Modify ```casparcg.conf``` and add the following lines:
 ```xml
 <osc>
     <predefined-clients>
