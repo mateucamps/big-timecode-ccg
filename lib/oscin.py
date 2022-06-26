@@ -1,8 +1,16 @@
-from pythonosc.dispatcher import Dispatcher
-from pythonosc.osc_server import BlockingOSCUDPServer
+try:
+    import pythonosc
+    from pythonosc.dispatcher import Dispatcher
+    from pythonosc.osc_server import BlockingOSCUDPServer
+except ImportError:
+	print("pythonosc library was not found. Please install it via `pip3 install python-osc` and try again.")
+	import sys
+	sys.exit(1)
+
+
 from settings import *
 
-class Oscin:
+class OscIn:
     def __init__(self, _ip, _port):
         self.ip, self.port = _ip, _port
         self.currentTimePlayer1, self.totalTimePlayer1 = 0.0, 0.0
@@ -26,25 +34,19 @@ class Oscin:
     def getTimeFromOscPlayer1(self, addr, currPlayer1, totalPlayer1):
         self.currentTimePlayer1 = currPlayer1
         self.totalTimePlayer1 = totalPlayer1
-        #print('PLAYER 1 Completat: {0:.0%}'.format( self.currentTimePlayer1/self.totalTimePlayer1 ))
 
     def getTimeFromOscPlayer2(self, addr, currPlayer2, totalPlayer2):
         self.currentTimePlayer2 = currPlayer2
         self.totalTimePlayer2 = totalPlayer2
-        #print('PLAYER 2 Completat: {0:.0%}'.format( self.currentTimePlayer2/self.totalTimePlayer2 ))
 
     def getFileFromOscPlayer1(self, addr, path):
-        #print('getFileFromOscPlayer1 path: ' + path)
         self.filePlayer1 = path
 
     def getFileFromOscPlayer2(self, addr, path):
-        #print('getFileFromOscPlayer2 path: ' + path)
         self.filePlayer2 = path
 
     def getPauseFromOscPlayer1(self, addr, paused):
-        #print('Player 1 paused? ' + str(paused))
         self.pausedPlayer1 = paused
 
     def getPauseFromOscPlayer2(self, addr, paused):
-        #print('Player 2 paused? ' + str(paused))
         self.pausedPlayer2 = paused

@@ -1,13 +1,14 @@
 from tkinter import *
 from tkinter.ttk import Progressbar
-from oscin import *
+from lib.oscin import *
 import threading
 import time
-import tc
-import sys
+import lib.tc as tc
+
 from settings import *
-from datahora import *
-from filename import getFileFromPath
+from lib.DataHora import DataHora
+from lib.filename import getFileFromPath
+from lib.HoraCatalana import HoraCatalana
 
 class MainGui:
     def __init__(self, _titol, _mida):
@@ -42,6 +43,7 @@ class MainGui:
         self.pasuedPlayer2 = False
 
         self.dh = DataHora()
+        self.hc = HoraCatalana()
 
         self.font = DEFAULT_FONT
         self.fontTC = TC_FONT
@@ -53,8 +55,10 @@ class MainGui:
         self.zonaHora = Frame(self.window)
         self.zonaPlayers = Frame(self.window)
 
-        self.labelHora = Label(self.zonaHora, text = self.dh.horaStr, font = self.fontHora, bg='black', fg='red')
-        self.labelData = Label(self.zonaHora, text = self.dh.dataStr, font = self.fontData, bg='black', fg='red')
+        self.labelHora = Label(self.zonaHora, text = self.dh.horaStr, font = self.fontHora, bg=CLOCK_BG_COLOR, fg=CLOCK_FG_COLOR)
+        if CATALAN_LOCALE:
+            self.labelHoraText = Label(self.zonaHora, text = self.hc, font = self.fontData, bg=CLOCK_BG_COLOR, fg=CLOCK_FG_COLOR)
+        self.labelData = Label(self.zonaHora, text = self.dh.dataStr, font = self.fontData, bg=CLOCK_BG_COLOR, fg=CLOCK_FG_COLOR)
 
         self.zonaPlayer1 = Frame(self.zonaPlayers)
         self.zonaPlayer2 = Frame(self.zonaPlayers)
@@ -63,12 +67,12 @@ class MainGui:
         self.zonaInfoEsquerraPlayer1 = Frame(self.zonaInfoPlayer1)
         self.zonaInfoDretaPlayer1 = Frame(self.zonaInfoPlayer1)
 
-        self.labelPlayer1 = Label(self.zonaPlayer1, text = 'Player 1', font=self.font, anchor = 'w', bg = 'SkyBlue1')
-        self.currTimeLabelPlayer1 = Label(self.zonaInfoEsquerraPlayer1, text='Actual:', font=self.font, anchor = 'w')
+        self.labelPlayer1 = Label(self.zonaPlayer1, text = PLAYER1_TITLE, font=self.font, anchor = 'w', bg = 'SkyBlue1')
+        self.currTimeLabelPlayer1 = Label(self.zonaInfoEsquerraPlayer1, text='Actual:' if CATALAN_LOCALE else 'Current:', font=self.font, anchor = 'w')
         self.currTimeNumPlayer1 = Label(self.zonaInfoEsquerraPlayer1, text=self.currTimePlayer1, font=self.fontTC)
         self.totalTimeLabelPlayer1 = Label(self.zonaInfoEsquerraPlayer1, text='Total:', font=self.font, anchor = 'w')
         self.totalTimeNumPlayer1 = Label(self.zonaInfoEsquerraPlayer1, text=self.totalTimePlayer1, font=self.fontTC)
-        self.restaTimeLabelPlayer1 = Label(self.zonaInfoDretaPlayer1, text='Restant:', font=self.font)
+        self.restaTimeLabelPlayer1 = Label(self.zonaInfoDretaPlayer1, text='Restant:' if CATALAN_LOCALE else 'Remaining:', font=self.font)
         self.restaTimeNumPlayer1 = Label(self.zonaInfoDretaPlayer1, text=self.restaTimePlayer1, font=self.fontTCRestant, relief='sunken')
 
         self.progPlayer1 = Progressbar(self.zonaPlayer1, orient='horizontal', mode='determinate')
@@ -77,12 +81,12 @@ class MainGui:
         self.zonaInfoEsquerraPlayer2 = Frame(self.zonaInfoPlayer2)
         self.zonaInfoDretaPlayer2 = Frame(self.zonaInfoPlayer2)
 
-        self.labelPlayer2 = Label(self.zonaPlayer2, text = 'Player 2', font=self.font, anchor = 'w', bg = 'SkyBlue4', fg = 'white')
-        self.currTimeLabelPlayer2 = Label(self.zonaInfoEsquerraPlayer2, text='Actual:', font=self.font, anchor = 'w')
+        self.labelPlayer2 = Label(self.zonaPlayer2, text = PLAYER2_TITLE, font=self.font, anchor = 'w', bg = 'SkyBlue4', fg = 'white')
+        self.currTimeLabelPlayer2 = Label(self.zonaInfoEsquerraPlayer2, text='Actual:' if CATALAN_LOCALE else 'Current:', font=self.font, anchor = 'w')
         self.currTimeNumPlayer2 = Label(self.zonaInfoEsquerraPlayer2, text=self.currTimePlayer2, font=self.fontTC)
         self.totalTimeLabelPlayer2 = Label(self.zonaInfoEsquerraPlayer2, text='Total:', font=self.font, anchor = 'w')
         self.totalTimeNumPlayer2 = Label(self.zonaInfoEsquerraPlayer2, text=self.totalTimePlayer2, font=self.fontTC)
-        self.restaTimeLabelPlayer2 = Label(self.zonaInfoDretaPlayer2, text='Restant:', font=self.font)
+        self.restaTimeLabelPlayer2 = Label(self.zonaInfoDretaPlayer2, text='Restant:' if CATALAN_LOCALE else 'Remaining:', font=self.font)
         self.restaTimeNumPlayer2 = Label(self.zonaInfoDretaPlayer2, text=self.restaTimePlayer2, font=self.fontTCRestant, relief='sunken')
 
         self.progPlayer2 = Progressbar(self.zonaPlayer2, orient='horizontal', mode='determinate')
@@ -92,7 +96,9 @@ class MainGui:
         self.zonaPlayers.pack(fill = 'both', expand = True)
 
         self.labelHora.pack(fill = 'x', expand = False)
-        self.labelData.pack(fill = 'x', expand = False)
+        if CATALAN_LOCALE:
+            self.labelHoraText.pack(fill = 'both', expand = True)
+        self.labelData.pack(fill = 'both', expand = True)
 
         self.zonaPlayer1.pack(fill = 'both', expand = True)
         self.zonaPlayer2.pack(fill = 'both', expand = True)
@@ -127,9 +133,9 @@ class MainGui:
         self.progPlayer2.pack(fill = 'both', expand = True, ipady=0)
 
     def mostraGui(self):
-        self.thOsc = threading.Thread(target=self.oscinit)
+        self.thOsc = threading.Thread(target=self.oscinit, daemon=True)
         self.thOsc.start()
-        self.thSleep = threading.Thread(target=self.autoUpdate)
+        self.thSleep = threading.Thread(target=self.autoUpdate, daemon=True)
         self.thSleep.start()
         self.window.mainloop()
 
@@ -139,6 +145,9 @@ class MainGui:
         self.dh.tick()
         self.labelData.config(text = self.dh.dataStr)
         self.labelHora.config(text = self.dh.horaStr)
+        if CATALAN_LOCALE:
+            self.hc.tic()
+            self.labelHoraText.config(text = self.hc)
 
         # Agafem dades de Caspar-OSC
         self.currTimePlayer1 = self.caspar.currentTimePlayer1
@@ -206,14 +215,11 @@ class MainGui:
                 self.restaTimeNumPlayer2.config(bg = 'green', fg = 'white')
 
     def oscinit(self):
-        self.caspar = Oscin(OSC_CLIENT_IP, OSC_CLIENT_PORT)
+        self.caspar = OscIn(OSC_CLIENT_IP, OSC_CLIENT_PORT)
         self.caspar.connecta_osc()
         self.caspar.inicia_osc()
 
-    def cmd_actualitza(self):
-        self.updateTimes()
-
     def autoUpdate(self):
         while(True):
-            self.cmd_actualitza()
+            self.updateTimes()
             time.sleep(REFRESH_RATE_MS)

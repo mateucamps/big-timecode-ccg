@@ -1,6 +1,32 @@
 # big-timecode-ccg
-Big Timecode display for CasparCG, designed to be used on Broadcast Control Rooms
+Big Timecode display for CasparCG, designed to be used in Broadcast Control Rooms.
+
+Tested on Windows, Ubuntu and Raspberry Pi 4B.
+
+It supports two channels, named "Player 1" and "Player 2" by default.
 
 ![Interface](/screenshot.png?raw=true "Interface")
 
-![Using](https://scontent-cdg2-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/69829949_2334049140257676_8776127908056263677_n.jpg?_nc_ht=scontent-cdg2-1.cdninstagram.com&_nc_cat=100&_nc_ohc=iSDYD1vEm4sAX-OQqhp&tp=15&oh=0e53e19c2712d3aa1a62bd2dba4239f6&oe=5FD755D1)
+
+## How to use:
+1. Clone or download this repository
+2. Install Python 3
+3. Install python-osc module:
+```bash
+~$ pip3 install python-osc
+```
+4. Modify ```settings.py``` to fit your needs.
+5. Modify ```casparcg.cong``` and add the following lines:
+```xml
+<osc>
+    <predefined-clients>
+        <predefined-client>
+            <address> #BIG TIMECODE MACHINE'S IP# </address>
+            <port>5253</port>	
+        </predefined-client>		
+    </predefined-clients>
+</osc>
+
+```
+6. Run ```main.py```
+7. Start playing media on your CasparCG Server to see some output. If nothing comes up, check ```settings.py``` > OSC Routes strings.

@@ -1,4 +1,4 @@
-from gui import *
+from lib.gui import *
 from settings import *
 
 app = MainGui(WINDOW_TITLE, WINDOW_SIZE)
