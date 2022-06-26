@@ -7,7 +7,6 @@ except ImportError:
 	import sys
 	sys.exit(1)
 
-
 from settings import *
 
 class OscIn:
