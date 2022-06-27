@@ -39,8 +39,11 @@ class MainGui:
         self.filePlayer1 = 'no-media'
         self.filePlayer2 = 'no-media'
 
-        self.pasuedPlayer1 = False
-        self.pasuedPlayer2 = False
+        self.pausedPlayer1 = False
+        self.pausedPlayer2 = False
+
+        self.loopPlayer1 = False
+        self.loopPlayer2 = False
 
         self.dh = DataHora()
         self.hc = HoraCatalana()
@@ -161,8 +164,12 @@ class MainGui:
         self.filePlayer1 = self.caspar.filePlayer1
         self.filePlayer2 = self.caspar.filePlayer2
 
-        self.pasuedPlayer1 = self.caspar.pausedPlayer1
-        self.pasuedPlayer2 = self.caspar.pausedPlayer2
+        self.pausedPlayer1 = self.caspar.pausedPlayer1
+        self.pausedPlayer2 = self.caspar.pausedPlayer2
+
+        self.loopPlayer1 = self.caspar.loopPlayer1
+        self.loopPlayer2 = self.caspar.loopPlayer2
+        
 
         # Canviem etiquetes
         self.currTimeTCPlayer1.parseFromSeconds(self.currTimePlayer1)
@@ -185,13 +192,13 @@ class MainGui:
             self.filePlayer1 = getFileFromPath(self.filePlayer1)
             self.filePlayer2 = getFileFromPath(self.filePlayer2)
         
-        self.labelPlayer1.config(text = PLAYER1_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pasuedPlayer1 else '[►] PLAYING') + ': ' + self.filePlayer1)
-        self.labelPlayer2.config(text = PLAYER2_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pasuedPlayer2 else '[►] PLAYING') + ': ' + self.filePlayer2)
+        self.labelPlayer1.config(text = PLAYER1_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pausedPlayer1 else '[►] PLAYING') +("↔LOOP" if self.loopPlayer1 else "")+ ': ' + self.filePlayer1)
+        self.labelPlayer2.config(text = PLAYER2_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pausedPlayer2 else '[►] PLAYING') +("↔LOOP" if self.loopPlayer2 else "")+ ': ' + self.filePlayer2)
 
         # Modifiquem progressbar i colors
         self.progPlayer1['maximum'] = self.totalTimePlayer1
         self.progPlayer1['value'] = self.currTimePlayer1
-        if self.pasuedPlayer1:
+        if self.pausedPlayer1:
             self.restaTimeNumPlayer1.config(bg = 'cyan', fg = 'black')
         else: 
             if self.restaTimePlayer1 < REMAINING_RED_SEC:
@@ -204,7 +211,7 @@ class MainGui:
 
         self.progPlayer2['maximum'] = self.totalTimePlayer2
         self.progPlayer2['value'] = self.currTimePlayer2
-        if self.pasuedPlayer2:
+        if self.pausedPlayer2:
             self.restaTimeNumPlayer2.config(bg = 'cyan', fg = 'black')        
         else:
             if self.restaTimePlayer2 < REMAINING_RED_SEC:

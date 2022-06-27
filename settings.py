@@ -25,6 +25,9 @@ OSC_FILE_NAMES = ['/channel/1/stage/layer/10/foreground/file/path',
 OSC_LAYER_PAUSED = ['/channel/1/stage/layer/10/foreground/paused',
                     '/channel/2/stage/layer/10/foreground/paused']
 
+OSC_LAYER_LOOP = ['/channel/1/stage/layer/10/foreground/loop',
+                  '/channel/2/stage/layer/10/foreground/loop']
+
 # GUI
 WINDOW_SIZE = '1280x720'
 WINDOW_TITLE = 'big-timecode-ccg'
@@ -44,14 +47,14 @@ DEFAULT_FONT = ('Arial', 25)
 TC_FONT = ('Arial', 35)
 REMAINING_TC_FONT = ('Arial', 45)
 
-PLAYER1_TITLE = 'Player 1'
-PLAYER2_TITLE = 'Player 2'
+PLAYER1_TITLE = 'P1'
+PLAYER2_TITLE = 'P2'
 
 DISPLAY_FULL_PATH = False
 
 CATALAN_LOCALE = False
 
-SHOW_DATE_YYMMDD = False
+SHOW_DATE_YYMMDD = True
 
 """
 ## DEFAULTS:

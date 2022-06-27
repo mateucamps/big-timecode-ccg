@@ -16,6 +16,7 @@ class OscIn:
         self.currentTimePlayer2, self.totalTimePlayer2 = 0.0, 0.0
         self.filePlayer1, self.filePlayer2 = 'no-media', 'no-media'
         self.pausedPlayer1, self.pausedPlayer2 = False, False
+        self.loopPlayer1, self.loopPlayer2 = False, False
 
     def connecta_osc(self):
         self.disp = Dispatcher()
@@ -25,6 +26,8 @@ class OscIn:
         self.disp.map(OSC_FILE_NAMES[1], self.getFileFromOscPlayer2)
         self.disp.map(OSC_LAYER_PAUSED[0], self.getPauseFromOscPlayer1)
         self.disp.map(OSC_LAYER_PAUSED[1], self.getPauseFromOscPlayer2)
+        self.disp.map(OSC_LAYER_LOOP[0], self.getLoopFromOscPlayer1)
+        self.disp.map(OSC_LAYER_LOOP[1], self.getLoopFromOscPlayer2)
         self.srv = BlockingOSCUDPServer( (self.ip, self.port), self.disp)
 
     def inicia_osc(self):
@@ -49,3 +52,9 @@ class OscIn:
 
     def getPauseFromOscPlayer2(self, addr, paused):
         self.pausedPlayer2 = paused
+
+    def getLoopFromOscPlayer1(self, addr, loop):
+        self.loopPlayer1 = loop
+
+    def getLoopFromOscPlayer2(self, addr, loop):
+        self.loopPlayer2 = loop
