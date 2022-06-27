@@ -11,10 +11,19 @@ class DataHora:
 
         self.horaStr = '00:00:00'
         self.dataStr = 'Dia, 00 de mes de 0000'
+        self.yymmdd = ""
 
     def updateStrings(self):
         self.horaStr = '{0:02d}:{1:02d}:{2:02d}'.format(self.hora, self.min, self.seg)
-        self.dataStr = '{0}, {1:02d} {2}{4}{3:04d}'.format(self.diaText, self.dia, self.mesText, self.any, " de " if CATALAN_LOCALE else " ")
+        self.yymmdd = '({0:%y%m%d})'.format(self._currentDateTime_)
+        self.dataStr = '{0}, {1:02d} {2}{4}{3:04d} {5}'.format(
+            self.diaText,
+            self.dia,
+            self.mesText,
+            self.any,
+            " de " if CATALAN_LOCALE else " ",
+            self.yymmdd if SHOW_DATE_YYMMDD else ""
+            )
 
     def tradueixDia(self, dia):
         angles_catala = {
