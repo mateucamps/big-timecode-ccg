@@ -5,7 +5,7 @@ Tested on Windows, Ubuntu and Raspberry Pi 4B.
 
 It supports two channels, named "Player 1" and "Player 2" by default.
 
-![Interface](/screenshot.png?raw=true "Interface")
+![Interface](/screenshot.gif?raw=true "Interface")
 
 
 ## How to use:
