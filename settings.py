@@ -14,7 +14,7 @@ OSC_CLIENT_PORT = 5253
 	# </osc>
 
 # CASPAR CG SERVER 2.3.0 LTS: Added /foreground/ between layer no. and /file/
-# KEPP IN MIND that we can only track one layer per channel.
+# KEEP IN MIND that we can only track one layer per channel.
 # (Default: Layer 10)
 OSC_TIME_ROUTES = ['/channel/1/stage/layer/10/foreground/file/time',
                    '/channel/2/stage/layer/10/foreground/file/time']
