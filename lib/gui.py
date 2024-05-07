@@ -6,8 +6,8 @@ import time
 import lib.tc as tc
 
 from settings import *
-from lib.DataHora import DataHora
 from lib.filename import getFileFromPath
+from lib.DataHora import DataHora
 from lib.HoraCatalana import HoraCatalana
 
 class MainGui:
@@ -46,7 +46,7 @@ class MainGui:
         self.loopPlayer2 = False
 
         self.dh = DataHora()
-        self.hc = HoraCatalana()
+        self.hc = HoraCatalana(franja='auto')
 
         self.font = DEFAULT_FONT
         self.fontTC = TC_FONT
@@ -161,8 +161,12 @@ class MainGui:
         self.totalTimePlayer2 = self.caspar.totalTimePlayer2
         self.restaTimePlayer2 = self.caspar.totalTimePlayer2 - self.caspar.currentTimePlayer2
 
-        self.filePlayer1 = self.caspar.filePlayer1
-        self.filePlayer2 = self.caspar.filePlayer2
+        if DISPLAY_FULL_PATH:
+            self.filePlayer1 = self.caspar.filePlayer1
+            self.filePlayer2 = self.caspar.filePlayer2
+        else:
+            self.filePlayer1 = getFileFromPath(self.caspar.filePlayer1)
+            self.filePlayer2 = getFileFromPath(self.caspar.filePlayer2)
 
         self.pausedPlayer1 = self.caspar.pausedPlayer1
         self.pausedPlayer2 = self.caspar.pausedPlayer2
@@ -187,13 +191,9 @@ class MainGui:
         self.currTimeNumPlayer2.config(text = self.currTimeTCPlayer2)
         self.totalTimeNumPlayer2.config(text = self.totalTimeTCPlayer2)
         self.restaTimeNumPlayer2.config(text = self.restaTimeTCPlayer2)
-
-        if not DISPLAY_FULL_PATH:
-            self.filePlayer1 = getFileFromPath(self.filePlayer1)
-            self.filePlayer2 = getFileFromPath(self.filePlayer2)
         
-        self.labelPlayer1.config(text = PLAYER1_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pausedPlayer1 else '[►] PLAYING') +("↔LOOP" if self.loopPlayer1 else "")+ ': ' + self.filePlayer1)
-        self.labelPlayer2.config(text = PLAYER2_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pausedPlayer2 else '[►] PLAYING') +("↔LOOP" if self.loopPlayer2 else "")+ ': ' + self.filePlayer2)
+        self.labelPlayer1.config(text = PLAYER1_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pausedPlayer1 else '[►] PLAYING') +(" (LOOP)" if self.loopPlayer1 else "")+ ': ' + self.filePlayer1)
+        self.labelPlayer2.config(text = PLAYER2_TITLE + ' ' + ('[▐ ▌] PAUSED' if self.pausedPlayer2 else '[►] PLAYING') +(" (LOOP)" if self.loopPlayer2 else "")+ ': ' + self.filePlayer2)
 
         # Modifiquem progressbar i colors
         self.progPlayer1['maximum'] = self.totalTimePlayer1

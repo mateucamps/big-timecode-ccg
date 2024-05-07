@@ -19,8 +19,8 @@ OSC_CLIENT_PORT = 5253
 OSC_TIME_ROUTES = ['/channel/1/stage/layer/10/foreground/file/time',
                    '/channel/2/stage/layer/10/foreground/file/time']
 
-OSC_FILE_NAMES = ['/channel/1/stage/layer/10/foreground/file/path',
-                  '/channel/2/stage/layer/10/foreground/file/path']
+OSC_FILE_NAMES = ['/channel/1/stage/layer/10/foreground/file/name',
+                  '/channel/2/stage/layer/10/foreground/file/name']
 
 OSC_LAYER_PAUSED = ['/channel/1/stage/layer/10/foreground/paused',
                     '/channel/2/stage/layer/10/foreground/paused']
@@ -65,11 +65,16 @@ OSC_CLIENT_PORT = 5253
 OSC_TIME_ROUTES = ['/channel/1/stage/layer/10/foreground/file/time',
                    '/channel/2/stage/layer/10/foreground/file/time']
 
-OSC_FILE_NAMES = ['/channel/1/stage/layer/10/foreground/file/path',
-                  '/channel/2/stage/layer/10/foreground/file/path']
+OSC_FILE_NAMES = ['/channel/1/stage/layer/10/foreground/file/name',
+                  '/channel/2/stage/layer/10/foreground/file/name']
 
 OSC_LAYER_PAUSED = ['/channel/1/stage/layer/foreground/10/paused',
                     '/channel/2/stage/layer/foreground/10/paused']
+
+OSC_LAYER_LOOP = ['/channel/1/stage/layer/10/foreground/loop',
+                  '/channel/2/stage/layer/10/foreground/loop']
+
+
 # GUI
 WINDOW_SIZE = '720x576'
 WINDOW_TITLE = 'big-timecode-ccg'
@@ -89,5 +94,10 @@ REMAINING_TC_FONT = ('Arial', 45)
 PLAYER1_TITLE = 'Player 1'
 PLAYER2_TITLE = 'Player 2'
 
+DISPLAY_FULL_PATH = False
+
 CATALAN_LOCALE = False
+
+SHOW_DATE_YYMMDD = True
+
 """
