@@ -29,6 +29,7 @@ OSC_LAYER_LOOP = ['/channel/1/stage/layer/10/foreground/loop',
                   '/channel/2/stage/layer/10/foreground/loop']
 
 # GUI
+STARTUP_DELAY_SECONDS = 0
 WINDOW_SIZE = '1280x720'
 WINDOW_TITLE = 'big-timecode-ccg'
 REFRESH_RATE_MS = 0.03
